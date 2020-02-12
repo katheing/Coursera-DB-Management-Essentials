@@ -1,0 +1,33 @@
+--Used MySQL
+
+--Problem 1
+SELECT DISTINCT city, state, zip
+FROM Customer;
+
+--Problem 2
+SELECT empname, department, phone, email
+FROM employee
+WHERE phone LIKE '3-';
+
+--Problem 3
+SELECT * FROM resourcetbl
+WHERE rate BETWEEN 10 and 20
+ORDER BY rate;
+
+--Problem 4
+SELECT eventno, dateAuth, status
+FROM eventrequest
+WHERE (status = 'Approved' OR status = 'Denied') AND
+dateAuth BETWEEN '2018-07-01' AND '2018-07-31';
+
+--Problem 5
+SELECT locno, locname
+FROM location INNER JOIN facility
+ON location.facno = facility.facno
+WHERE facname = 'Basketball arena';
+
+--Problem 6
+SELECT planNo, COUNT(*) AS NumEventLines, SUM(NumberFld) AS TotalResourcesAssigned
+FROM eventplanline
+GROUP BY planNo
+HAVING COUNT(*) > 0;
