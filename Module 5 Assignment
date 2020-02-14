@@ -1,0 +1,66 @@
+--SELECT Statement Problems
+
+--Problem 1
+SELECT eventrequest.eventno, dateheld, COUNT(*) AS EventPlanCount
+FROM eventrequest INNER JOIN eventplan
+ON eventrequest.eventno = eventplan.eventno
+WHERE workdate BETWEEN '2018-12-01' AND '2018-12-31'
+GROUP BY eventrequest.eventno
+HAVING COUNT(*) > 1;
+
+--Problem 2
+SELECT eventplan.planno, eventplan.eventno, workdate, activity
+FROM eventplan, eventrequest, facility
+WHERE eventplan.eventno = eventrequest.eventno
+AND eventrequest.facno = facility.facno
+AND facname = 'Basketball arena'
+AND workdate BETWEEN '2018-12-01' AND '2018-12-31';
+
+--Problem 3
+SELECT eventplan.eventno, dateheld, status, estcost
+FROM eventrequest, facility, eventplan, employee
+WHERE eventrequest.eventno = eventplan.eventno
+AND eventplan.empno = employee.empno
+AND eventrequest.facno = facility.facno
+AND empname = 'Mary Manager'
+AND dateheld BETWEEN '2018-10-01' AND '2018-12-31'
+AND facname = 'Basketball arena';
+
+--Problem 4
+SELECT eventplanline.planno, eventplanline.lineno, resname, numberfld, locname, timestart, timeend
+FROM eventplanline, resourcetbl, eventplan, facility, location
+WHERE eventplanline.resno = resourcetbl.resno
+AND location.facno = facility.facno
+AND eventplanline.planno = eventplan.planno
+AND eventplanline.locno = location.locno
+AND activity = 'Operation'
+AND facname = 'Basketball arena'
+AND workdate BETWEEN '2018-10-01' AND '2018-12-31';
+
+--Database Modification Problems
+
+--Problem 1
+INSERT INTO facility (facno, facname) values ('F104', 'Swimming Pool');
+
+--Problem 2
+INSERT INTO location (locno, facno, locname) values
+('L107', 'F104', 'Door');
+
+--Problem 3
+INSERT INTO location (locno, facno, locname) values
+('L108', 'F104', 'Locker Room');
+
+--Problem 4
+SET SQL_SAFE_UPDATES = 0;
+
+UPDATE location
+SET locname = 'Gate'
+WHERE locname = 'Door';
+
+SET SQL_SAFE_UPDATES = 1;
+
+--Problem 5
+SET SQL_SAFE_UPDATES = 0;
+
+DELETE FROM location
+WHERE locno = 'L107';
